@@ -28,10 +28,13 @@ const usePostStore = create<PostState>()((set) => ({
       set({ loading: false });
     }
   },
-  async addPost(form: PostForm) {
+  async addPost(userId: number, form: PostForm) {
     set({ loading: true });
     try {
-      const response = await axios.post<IPost>(API_URL + "posts", form);
+      const response = await axios.post<IPost>(
+        API_URL + "posts?userId=" + userId,
+        form
+      );
       if (response.status !== 200) throw new Error();
       set((state) => ({ posts: [...state.posts, response.data] }));
     } catch {
