@@ -1,13 +1,14 @@
-import { Link, useParams } from "react-router-dom";
-import useUserStore from "../stores/useUserStore";
-import useAlbumStore from "../stores/useAlbumStore";
-import Loader from "../components/Loader";
 import { useEffect } from "react";
-import usePhotoStore from "../stores/usePhotoStore";
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from "../components/Loader";
 import PhotoCard from "../components/PhotoCard";
+import useAlbumStore from "../stores/useAlbumStore";
+import usePhotoStore from "../stores/usePhotoStore";
+import useUserStore from "../stores/useUserStore";
 
 export default function PhotoPage() {
   const params = useParams();
+  const navigate = useNavigate();
   const { selectedUser, userLoad, showUser } = useUserStore((state) => state);
   const { selectedAlbum, albumLoad, showAlbum } = useAlbumStore(
     (state) => state
@@ -30,9 +31,9 @@ export default function PhotoPage() {
         <h2 className="card-title text-4xl">{selectedAlbum?.title}</h2>
         <p>
           Album by:{" "}
-          <Link to={"user/" + selectedUser?.id} className="text-blue-500 font-medium">
+          <a onClick={() => navigate(-1)} className="text-blue-500 font-medium cursor-pointer">
             {selectedUser?.name}
-          </Link>
+          </a>
         </p>
         <div className="divider"></div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
