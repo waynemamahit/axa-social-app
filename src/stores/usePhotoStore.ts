@@ -10,7 +10,7 @@ export interface PhotoStore {
   getPhotos: (albumId: number) => void;
 }
 
-const useCommentStore = create<PhotoStore>()((set) => ({
+const usePhotoStore = create<PhotoStore>()((set) => ({
   photos: [],
   loading: false,
   async getPhotos(albumId: number) {
@@ -29,4 +29,4 @@ const useCommentStore = create<PhotoStore>()((set) => ({
   },
 }));
 
-export default useCommentStore;
+export default usePhotoStore;

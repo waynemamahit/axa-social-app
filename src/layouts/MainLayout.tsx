@@ -34,7 +34,9 @@ export default function MainLayout() {
           </label>
         </div>
       </div>
-      <Outlet />
+      <div className="p-4">
+        <Outlet />
+      </div>
     </>
   );
 }

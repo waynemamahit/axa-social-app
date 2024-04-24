@@ -43,7 +43,7 @@ const usePostStore = create<PostState>()((set) => ({
   async updatePost(id: number, form: PostForm) {
     set({ loading: true });
     try {
-      const response = await axios.patch<IPost>(API_URL + "posts/1", form);
+      const response = await axios.patch<IPost>(API_URL + "posts/" + id, form);
       if (response.status !== 200) throw new Error();
       set((state) => {
         const posts = state.posts;

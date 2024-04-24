@@ -32,22 +32,22 @@ const useCommentStore = create<CommentState>()((set) => ({
     set({ loading: true });
     try {
       const response = await axios.post<IComment>(
-        API_URL + "comments=postId=" + postId,
+        API_URL + "comments?postId=" + postId,
         form
       );
       if (response.status !== 200) throw new Error();
       set((state) => ({ comments: [...state.comments, response.data] }));
     } catch {
-      await showError("Failed to comment post");
+      await showError("Failed to add comment");
     } finally {
       set({ loading: false });
     }
   },
-  async updatePost(id: number, form: CommentForm) {
+  async updateComment(id: number, form: CommentForm) {
     set({ loading: true });
     try {
       const response = await axios.patch<IComment>(
-        API_URL + "comments/1",
+        API_URL + "comments/" + id,
         form
       );
       if (response.status !== 200) throw new Error();
@@ -60,7 +60,7 @@ const useCommentStore = create<CommentState>()((set) => ({
         return { comments };
       });
     } catch {
-      await showError("Failed to update post");
+      await showError("Failed to update comment");
     } finally {
       set({ loading: false });
     }
