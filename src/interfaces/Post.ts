@@ -3,18 +3,7 @@ export interface IPostBase {
   body: string;
 }
 
-export interface IPost {
+export interface IPost extends IPostBase {
   id: number;
   userId?: number;
-}
-
-export interface ICommentBase {
-  name: string;
-  email: string;
-  body: string;
-}
-
-export interface IComment extends ICommentBase {
-  id: number;
-  postId?: number;
 }

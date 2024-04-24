@@ -1,4 +1,4 @@
-export default function AlbumPage() {
+export default function PhotoPage() {
   return (
     <div>
       
