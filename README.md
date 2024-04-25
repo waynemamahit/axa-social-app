@@ -1,5 +1,6 @@
 # Frontend Technical Test
 This is frontend technical test from AXA (Vite+React)
+[Click here for link](https://axa-social-2w2n1fd2w-waney-mamahits-projects.vercel.app/)
 
 ## Getting Started
 - First, install dependencies
