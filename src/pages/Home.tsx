@@ -20,7 +20,7 @@ export default function HomePage() {
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {users.map(({ id, name, email }: IUser) => (
               <Link key={id} to={"/user/" + id}>
                 <UserCard name={name} email={email} />

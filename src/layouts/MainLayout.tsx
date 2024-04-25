@@ -49,7 +49,7 @@ export default function MainLayout() {
           </label>
         </div>
       </div>
-      <div className="p-4">
+      <div className="lg:p-4 md:p-3">
         <Outlet />
       </div>
     </>

@@ -130,7 +130,7 @@ export default function PostPage() {
                   >
                     <div className="card-body">
                       <span className="card-title">{comment.name}</span>
-                      <p>Comment by: {comment.email}</p>
+                      <p className="text-wrap">Comment by: {comment.email}</p>
                       <p>{comment.body}</p>
                       <div className="card-actions justify-end">
                         <button
