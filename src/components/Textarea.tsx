@@ -12,7 +12,16 @@ export default function Textarea<DataField = object>({
       <textarea
         placeholder={placeholder}
         className="textarea textarea-bordered w-full"
-        {...register(name)}
+        {...register(name, {
+          required: {
+            value: true,
+            message: "Required!",
+          },
+          minLength: {
+            value: 2,
+            message: "Must have least 2 character!",
+          },
+        })}
       ></textarea>
     </FormControl>
   );

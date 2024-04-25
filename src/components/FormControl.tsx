@@ -11,11 +11,11 @@ export default function FormControl({
   return (
     <label className="form-control w-full mt-3">
       {children}
-      {errors && (
+      {errors ? (
         <div className="label">
-          <span className="label-text-alt">{errors as ReactNode}</span>
+          <span className="label-text-alt text-red-500">{errors.message}</span>
         </div>
-      )}
+      ) : null}
     </label>
   );
 }
