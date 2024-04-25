@@ -9,7 +9,9 @@ export default function MainLayout() {
   useEffect(() => {
     localStorage.setItem("theme", theme as string);
     const localTheme = localStorage.getItem("theme");
-    document.querySelector("html")?.setAttribute("data-theme", localTheme as string);
+    document
+      .querySelector("html")
+      ?.setAttribute("data-theme", localTheme as string);
   }, [theme]);
 
   return (
@@ -17,7 +19,7 @@ export default function MainLayout() {
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <Link to={"/"} className="btn btn-ghost text-xl">
-            AXA Social App
+            AXA Social
           </Link>
         </div>
         <div className="flex-none">
@@ -26,7 +28,7 @@ export default function MainLayout() {
               type="checkbox"
               className="theme-controller"
               onChange={(e) => setTheme(e.target.checked ? "dark" : "light")}
-              checked={theme === "light" ? false : true}
+              checked={theme === "dark"}
             />
             {/* sun icon */}
             <svg

@@ -10,7 +10,10 @@ import { showError, showMessage } from "../utils/message";
 export interface PostState extends IFormState {
   posts: IPost[];
   loading: boolean;
+  selectedPost: IPost | null;
+  postLoad: boolean;
   getPosts: (userId: number) => Promise<void>;
+  showPost: (id: number) => Promise<void>;
   addPost: (userId: number, form: PostForm) => Promise<void>;
   updatePost: (id: number, form: PostForm) => Promise<void>;
   deletePost: (id: number) => Promise<void>;
@@ -20,6 +23,8 @@ const usePostStore = create<PostState>()((set) => ({
   ...new FormState(set),
   posts: [],
   loading: false,
+  selectedPost: null,
+  postLoad: false,
   async getPosts(userId: number) {
     set({ loading: true });
     try {
@@ -32,6 +37,18 @@ const usePostStore = create<PostState>()((set) => ({
       await showError("Failed to get posts");
     } finally {
       set({ loading: false });
+    }
+  },
+  async showPost(id: number) {
+    set({ postLoad: true });
+    try {
+      const response = await axios.get<IPost>(API_URL + "posts/" + id);
+      if (response.status !== 200) throw new Error();
+      set({ selectedPost: response.data });
+    } catch {
+      await showError("Failed to show user");
+    } finally {
+      set({ postLoad: false });
     }
   },
   async addPost(userId: number, form: PostForm) {

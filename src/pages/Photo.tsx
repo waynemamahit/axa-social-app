@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import PhotoCard from "../components/PhotoCard";
 import useAlbumStore from "../stores/useAlbumStore";
 import usePhotoStore from "../stores/usePhotoStore";
 import useUserStore from "../stores/useUserStore";
@@ -30,20 +29,32 @@ export default function PhotoPage() {
       <div className="card-body">
         <h2 className="card-title text-4xl">{selectedAlbum?.title}</h2>
         <p>
-          Album by:{" "}
-          <a onClick={() => navigate(-1)} className="text-blue-500 font-medium cursor-pointer">
+          Posted by:{" "}
+          <button
+            onClick={() => navigate(-1)}
+            className="text-blue-500 font-medium cursor-pointer"
+          >
             {selectedUser?.name}
-          </a>
+          </button>
         </p>
         <div className="divider"></div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           {photos.map((photo) => (
-            <PhotoCard
+            <div
               key={photo.id}
-              thumbnailUrl={photo.thumbnailUrl}
-              title={photo.title}
-              url={photo.url}
-            />
+              className="card card-side bg-base-100 shadow-xl min-w-20 overflow-auto"
+            >
+              <img src={photo.thumbnailUrl} alt="Thumbnail" />
+              <div className="card-body">
+                <h2 className="card-title text-2xl">{photo.title}</h2>
+                <p>
+                  Photo URL:{" "}
+                  <a className="font-medium text-blue-500" href={photo.url}>
+                    {photo.url}
+                  </a>
+                </p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

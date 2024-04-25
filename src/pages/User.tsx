@@ -16,6 +16,7 @@ import { confirmMessage } from "../utils/message";
 
 export default function UserPage() {
   const params = useParams();
+  const userId = Number(params?.userId ?? 0);
   const { selectedUser, userLoad, showUser } = useUserStore((state) => state);
   const {
     posts,
@@ -42,14 +43,6 @@ export default function UserPage() {
     defaultValues: new PostForm(),
   });
 
-  const onSubmit = async (data: PostForm) => {
-    if (formMode === "add") {
-      await addPost(Number(params?.userId ?? 0), data);
-    } else {
-      await updatePost(data.id as number, data);
-    }
-  };
-
   const onOpenForm = (mode: FormMode = "add", newForm = new PostForm()) => {
     setValue("id", newForm.id);
     setValue("userId", newForm.userId);
@@ -59,11 +52,19 @@ export default function UserPage() {
     (document.getElementById("postForm") as ModalType)?.showModal();
   };
 
+  const onSubmit = async (data: PostForm) => {
+    if (formMode === "add") {
+      await addPost(userId, data);
+    } else {
+      await updatePost(data.id, data);
+    }
+  };
+
   useEffect(() => {
-    showUser(Number(params?.userId ?? 0));
-    getAlbums(Number(params?.userId ?? 0));
-    getPosts(Number(params?.userId ?? 0));
-  }, [getAlbums, getPosts, params?.userId, showUser]);
+    showUser(userId);
+    getAlbums(userId);
+    getPosts(userId);
+  }, [getAlbums, getPosts, params.userId, showUser, userId]);
 
   if (userLoad) {
     return <Loader />;
