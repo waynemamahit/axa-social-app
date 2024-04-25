@@ -1,17 +1,23 @@
 import axios from "axios";
 import { create } from "zustand";
+import { IFormState, ModalType } from "../interfaces/Base";
 import { IPost } from "../interfaces/Post";
-import { API_URL } from "../utils/env";
-import { showError } from "../utils/message";
+import { FormState } from "../models/Base";
 import { PostForm } from "../models/Post";
+import { API_URL } from "../utils/env";
+import { showError, showMessage } from "../utils/message";
 
-export interface PostState {
+export interface PostState extends IFormState {
   posts: IPost[];
   loading: boolean;
-  getPosts: (userId: number) => void;
+  getPosts: (userId: number) => Promise<void>;
+  addPost: (userId: number, form: PostForm) => Promise<void>;
+  updatePost: (id: number, form: PostForm) => Promise<void>;
+  deletePost: (id: number) => Promise<void>;
 }
 
 const usePostStore = create<PostState>()((set) => ({
+  ...new FormState(set),
   posts: [],
   loading: false,
   async getPosts(userId: number) {
@@ -29,25 +35,28 @@ const usePostStore = create<PostState>()((set) => ({
     }
   },
   async addPost(userId: number, form: PostForm) {
-    set({ loading: true });
+    set({ formLoad: true });
     try {
       const response = await axios.post<IPost>(
         API_URL + "posts?userId=" + userId,
         form
       );
-      if (response.status !== 200) throw new Error();
-      set((state) => ({ posts: [...state.posts, response.data] }));
+      if (response.status !== 201) throw new Error();
+      (document.getElementById("postForm") as ModalType)?.close();
+      set((state) => ({ posts: [response.data, ...state.posts] }));
+      await showMessage("New post has been added!");
     } catch {
       await showError("Failed to add post");
     } finally {
-      set({ loading: false });
+      set({ formLoad: false });
     }
   },
   async updatePost(id: number, form: PostForm) {
-    set({ loading: true });
+    set({ formLoad: true });
     try {
       const response = await axios.patch<IPost>(API_URL + "posts/" + id, form);
       if (response.status !== 200) throw new Error();
+      (document.getElementById("postForm") as ModalType)?.close();
       set((state) => {
         const posts = state.posts;
         const dataIndex = posts.findIndex((postItem) => postItem.id === id);
@@ -56,8 +65,29 @@ const usePostStore = create<PostState>()((set) => ({
         }
         return { posts };
       });
+      await showMessage("Post has been updated!");
     } catch {
       await showError("Failed to update post");
+    } finally {
+      set({ formLoad: false });
+    }
+  },
+  async deletePost(id: number) {
+    set({ loading: true });
+    try {
+      const response = await axios.delete<IPost>(API_URL + "posts/" + id);
+      if (response.status !== 200) throw new Error();
+      set((state) => {
+        const posts = state.posts;
+        const dataIndex = posts.findIndex((postItem) => postItem.id === id);
+        if (dataIndex >= 0) {
+          posts.splice(dataIndex, 1);
+        }
+        return { posts };
+      });
+      await showMessage("Post has been deleted!");
+    } catch {
+      await showError("Failed to delete post");
     } finally {
       set({ loading: false });
     }

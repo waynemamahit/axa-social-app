@@ -1,6 +1,8 @@
-import { IPostBase } from "../interfaces/Post";
+import { IPost } from "../interfaces/Post";
 
-export class PostForm implements IPostBase {
+export class PostForm implements IPost {
   body = "";
   title = "";
+  id = 0;
+  userId?: number | undefined;
 }

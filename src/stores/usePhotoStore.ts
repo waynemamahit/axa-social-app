@@ -7,7 +7,7 @@ import { showError } from "../utils/message";
 export interface PhotoStore {
   photos: IPhoto[];
   loading: boolean;
-  getPhotos: (albumId: number) => void;
+  getPhotos: (albumId: number) => Promise<void>;
 }
 
 const usePhotoStore = create<PhotoStore>()((set) => ({

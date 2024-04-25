@@ -9,8 +9,8 @@ export interface AlbumState {
   loading: boolean;
   selectedAlbum: IAlbum | null;
   albumLoad: boolean;
-  getAlbums: (userId: number) => void;
-  showAlbum: (id: number) => void;
+  getAlbums: (userId: number) => Promise<void>;
+  showAlbum: (id: number) => Promise<void>;
 }
 
 const useAlbumStore = create<AlbumState>()((set) => ({

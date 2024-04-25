@@ -9,8 +9,8 @@ export interface UserState {
   loading: boolean;
   selectedUser: IUser | null;
   userLoad: boolean;
-  showUser: (id: number) => void;
-  getUsers: () => void;
+  getUsers: () => Promise<void>;
+  showUser: (id: number) => Promise<void>;
 }
 
 const useUserStore = create<UserState>()((set) => ({

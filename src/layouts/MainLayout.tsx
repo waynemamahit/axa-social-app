@@ -1,19 +1,32 @@
+import { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 export default function MainLayout() {
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme as string);
+    const localTheme = localStorage.getItem("theme");
+    document.querySelector("html")?.setAttribute("data-theme", localTheme as string);
+  }, [theme]);
+
   return (
     <>
       <div className="navbar bg-base-100">
         <div className="flex-1">
-          <Link to={'/'} className="btn btn-ghost text-xl">AXA Social App</Link>
+          <Link to={"/"} className="btn btn-ghost text-xl">
+            AXA Social App
+          </Link>
         </div>
         <div className="flex-none">
           <label className="swap swap-rotate">
-            {/* this hidden checkbox controls the state */}
             <input
               type="checkbox"
               className="theme-controller"
-              value="synthwave"
+              onChange={(e) => setTheme(e.target.checked ? "dark" : "light")}
+              checked={theme === "light" ? false : true}
             />
             {/* sun icon */}
             <svg
