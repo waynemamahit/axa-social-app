@@ -72,7 +72,7 @@ export default function PostPage() {
       <div className="card-body">
         <h2 className="card-title text-4xl">{selectedPost?.title}</h2>
         <p>
-          Album by:{" "}
+          Posted by:{" "}
           <button
             onClick={() => navigate(-1)}
             className="text-blue-500 font-medium cursor-pointer inline-block"

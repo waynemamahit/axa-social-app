@@ -29,7 +29,7 @@ export default function PhotoPage() {
       <div className="card-body">
         <h2 className="card-title text-4xl">{selectedAlbum?.title}</h2>
         <p>
-          Posted by:{" "}
+          Album by:{" "}
           <button
             onClick={() => navigate(-1)}
             className="text-blue-500 font-medium cursor-pointer"
